@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bansos</title>
+</head>
+<body>
+    <h1>Prediksi Kelayakan Rumah untuk Bantuan Sosial</h1>
+
+    <form action="/predict" method="post" enctype="multipart/form-data">
+        <label for="file">Pilih Gambar Rumah:</label>
+        <input type="file" name="file" accept="image/*" required id="file-input"><br><br>
+        
+        <div id="image-preview" style="display:none;">
+            <h3>Gambar yang Diupload:</h3>
+            <img id="preview-img" src="" alt="Uploaded Image" style="max-width: 300px; height: auto;">
+        </div>
+
+        <button type="submit">Prediksi</button>
+    </form>
+    
+    <br>
+    <div id="result">
+        <!-- Hasil prediksi akan ditampilkan di sini -->
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+
+        fileInput.addEventListener('change', () => {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const form = document.querySelector('form');
+        form.onsubmit = async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/predict', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await response.json();
+            const resultDiv = document.getElementById('result');
+            if (response.ok) {
+                resultDiv.innerHTML = `Prediksi: ${result.prediction} (Confidence: ${result.confidence.toFixed(2)})`;
+            } else {
+                resultDiv.innerHTML = `Error: ${result.error}`;
+            }
+        };
+    </script>
+</body>
+</html>
