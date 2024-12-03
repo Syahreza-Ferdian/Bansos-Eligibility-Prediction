@@ -39,7 +39,7 @@ def evaluate_model(model, test_x, test_y):
     print(f"Test Loss: {test_loss:.2f}")
 
     predictions = model.predict(test_x)
-    predicted_classes = (predictions > 0.5).astype("int32") 
+    predicted_classes = (predictions > 0.3).astype("int32") 
 
     print("\nClassification Report:")
     print(classification_report(test_y, predicted_classes))
