@@ -5,3 +5,5 @@ processed_data
 config.py
 predict.py
 edit.jpeg
+venv
+test.py
