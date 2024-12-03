@@ -1,4 +1,7 @@
 from flask import Flask, request, render_template, jsonify
+# from keras._tf_keras.keras.models import load_model
+import tensorflow as tf
+from tensorflow import keras
 from keras._tf_keras.keras.models import load_model
 from keras._tf_keras.keras.preprocessing import image
 import numpy as np
@@ -33,7 +36,7 @@ def predict():
     if file.filename == '':
         return jsonify({'error': 'File tidak ditemukan'}), 400
 
-    img_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    img_path = os.path.join(str(UPLOAD_FOLDER), str(file.filename)) 
     file.save(img_path)
     
     img_array = prepare_image(img_path)
