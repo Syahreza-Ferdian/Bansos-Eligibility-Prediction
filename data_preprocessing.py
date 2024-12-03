@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
-from tensorflow import keras
+# from tensorflow import keras
 from keras._tf_keras.keras.preprocessing.image import ImageDataGenerator
 
 IMG_SIZE = (224, 224) 
@@ -53,7 +53,8 @@ def augment_data(images, labels):
         shear_range=0.2,
         zoom_range=0.2,
         horizontal_flip=True,
-        fill_mode="nearest"
+        fill_mode="nearest",
+        brightness_range=[0.8, 1.2]
     )
 
     return datagen.flow(images, labels, batch_size=32)
