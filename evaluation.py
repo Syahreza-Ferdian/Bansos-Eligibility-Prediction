@@ -29,9 +29,15 @@ def load_trained_model(model_path):
     print("Model loaded successfully.")
     return model
 
-def evaluate_model(model, test_x, test_y):
+def evaluate_model(model, test_x, test_y, threshold=0.5):
     """
     Evaluate the model on the test data and print classification report and confusion matrix.
+    
+    Parameters:
+    - model: Trained Keras model.
+    - test_x: Test features.
+    - test_y: True labels for the test set.
+    - threshold: Threshold for binary classification (default is 0.5).
     """
     print("Evaluating the model on the test set...")
     test_loss, test_accuracy = model.evaluate(test_x, test_y)
@@ -39,7 +45,7 @@ def evaluate_model(model, test_x, test_y):
     print(f"Test Loss: {test_loss:.2f}")
 
     predictions = model.predict(test_x)
-    predicted_classes = (predictions > 0.3).astype("int32") 
+    predicted_classes = (predictions > threshold).astype("int32") 
 
     print("\nClassification Report:")
     print(classification_report(test_y, predicted_classes))
@@ -60,4 +66,6 @@ if __name__ == "__main__":
 
     model = load_trained_model(MODEL_PATH)
 
-    evaluate_model(model, test_x, test_y)
+    threshold = 0.8
+
+    evaluate_model(model, test_x, test_y, threshold=threshold)
